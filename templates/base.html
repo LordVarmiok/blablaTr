@@ -3,12 +3,12 @@
 
 
 <h1> <b>BLA BLA TRUCK</b></h1>
-{#{% if user.is_authenticated %}#}
-{#    <P>Witaj Podróżniku {{ user.username }}!!</P>#}
-{#    <a href="{% url 'logout' %}">Wyloguj</a>#}
-{#    {% else %}#}
-{#    <a href="{% url 'login' %}">Zaloguj</a>#}
-{#{% endif %}#}
+{% if user.is_authenticated %}
+    <P>Witaj Użytkowniku {{ user.username }}!!</P>
+    <a href="{% url 'logout' %}">Wyloguj</a>
+    {% else %}
+    <a href="{% url 'login' %}">Zaloguj</a>
+{% endif %}
 
 {% block content %}
 {% endblock %}
