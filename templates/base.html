@@ -78,7 +78,8 @@
                 <h1 class="mt-2"><b>BLA BLA TRUCK</b></h1>
                 <hr class="mt-2">
                 {% if user.is_authenticated %}
-
+                    <P>Witaj {{ user.username }}!</P>
+                    <a href="{% url 'logout' %}" >Wyloguj</a>
                 {% endif %}
                 <!--                             BLOCK CONTENT-->
                 {% block content %}
