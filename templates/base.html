@@ -4,10 +4,11 @@
 
 <h1> <b>BLA BLA TRUCK</b></h1>
 {% if user.is_authenticated %}
-    <P>Witaj Użytkowniku {{ user.username }}!!</P>
+    <P>Witaj {{ user.username }}!!</P>
     <a href="{% url 'logout' %}">Wyloguj</a>
     {% else %}
     <a href="{% url 'login' %}">Zaloguj</a>
+    <a href="/accounts/signup/">Zarejestruj się</a>
 {% endif %}
 
 {% block content %}

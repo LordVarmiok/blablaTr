@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
+    Create an Account
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Stwórz</button>
+        <button type="submit">Sign Up</button>
     </form>
 {% endblock %}

@@ -19,5 +19,8 @@ from przewoz import views
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
-    path('', views.index)
+    path('', views.index),
+    path('transits/', views.TransitView.as_view(), name='transits'),
+    path('vehicles/', views.VehicleView.as_view(), name='vehicles'),
+    path('cargo/', views.CargoView.as_view(), name='cargo'),
 ]
