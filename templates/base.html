@@ -1,21 +1,77 @@
-{% load static %}
+<html>
+<head>
+<style type="text/css">
+    .sidenav {
+        height: 100%;
+        width: 210px;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #333;
+        overflow-x: hidden;
+        padding-top: 20px;
+    }
+
+    .sidenav a {
+        padding: 6px 8px 6px 16px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+    }
+
+    .sidenav a:hover {
+        color: #f1f1f1;
+    }
+
+    .main {
+        margin-left: 215px;
+        padding: 0px 10px;
+    }
+
+</style>
+
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    {% load static %}
+{#                                                          TUTAJ JEST SIDENAV#}
+    {% if user.is_authenticated %}
+
+        <div class="sidenav">
+            <a href="/">Strona główna</a>
+            <a href="/przewoz/create_transit/">Stwórz przejazd</a>
+            <a href="/przewoz/my_transits/">Moje przejazdy</a>
+            <a href="/przewoz/search_transit/">Wyszukaj przejazd</a>
+            <a href="/przewoz/my_reservations/">Moje rezerwacje</a>
+        </div>
 
 
+        {% else %}
+        <div class="sidenav">
+        <a href="{% url 'login' %}">Zaloguj</a>
+        <a href="/accounts/signup/">Zarejestruj się</a>
+        </div>
 
-<h1> <b>BLA BLA TRUCK</b></h1>
-{% if user.is_authenticated %}
-    <P>Witaj {{ user.username }}!!</P>
-    <a href="{% url 'logout' %}">Wyloguj</a>
-    {% else %}
-    <a href="{% url 'login' %}">Zaloguj</a>
-    <a href="/accounts/signup/">Zarejestruj się</a>
-{% endif %}
+    {% endif %}
+{#                                                                         TUTAJ ROZPOCZYNA SIĘ GŁÓWNY CONTENT#}
+    <div id="content" name="content" class="main">
 
-{% block content %}
-{% endblock %}
+        <h1> <b>BLA BLA TRUCK</b></h1>
+        {% if user.is_authenticated %}
+            <P>Witaj {{ user.username }}!</P>
+            <a href="{% url 'logout' %}" >Wyloguj</a>
+        {% endif %}
 
+        {% block content %}
+        {% endblock %}
+    </div>
 
+    <p>
+        ver:{{ app_version }}
+    </p>
 
-<p>
-    ver:{{ app_version }}
-</p>
+</body>
+
+</html>

@@ -23,4 +23,8 @@ urlpatterns = [
     path('transits/', views.TransitView.as_view(), name='transits'),
     path('vehicles/', views.VehicleView.as_view(), name='vehicles'),
     path('cargo/', views.CargoView.as_view(), name='cargo'),
+    # path('create_transit/', ),
+    # path('my_transits/', ),
+    # path('search_transit/', ),
+    # path('my_reservations/', ),
 ]
