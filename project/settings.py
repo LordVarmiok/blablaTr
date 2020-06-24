@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'przewoz',
     'bootstrap4',
     'accounts',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -129,3 +130,5 @@ STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

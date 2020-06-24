@@ -1,5 +1,8 @@
+<!doctype html>
 <html>
 <head>
+
+
 <style type="text/css">
     .sidenav {
         height: 100%;
@@ -31,6 +34,15 @@
     }
 
 </style>
+{#                                  BOOTSTRAP STUFF OVER HERE#}
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+
+
 
     <title>{% block title %}{% endblock %}</title>
 </head>
@@ -58,19 +70,37 @@
 {#                                                                         TUTAJ ROZPOCZYNA SIĘ GŁÓWNY CONTENT#}
     <div id="content" name="content" class="main">
 
-        <h1> <b>BLA BLA TRUCK</b></h1>
-        {% if user.is_authenticated %}
-            <P>Witaj {{ user.username }}!</P>
-            <a href="{% url 'logout' %}" >Wyloguj</a>
-        {% endif %}
 
-        {% block content %}
-        {% endblock %}
+
+
+        <div class="row justify-content-center">
+            <div class="col-8">
+                <h1 class="mt-2"><b>BLA BLA TRUCK</b></h1>
+                <hr class="mt-2">
+                {% if user.is_authenticated %}
+
+                {% endif %}
+                <!--                             BLOCK CONTENT-->
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+
     </div>
 
     <p>
         ver:{{ app_version }}
     </p>
+
+
+
+{#                                      MORE BOOTSTRAP#}
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
 
 </body>
 

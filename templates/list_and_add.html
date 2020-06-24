@@ -1,18 +1,25 @@
 {% extends 'base.html' %}
+{% load crispy_forms_filters %}
 
 {% block content %}
     {% if form %}
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <p><input type="submit" value="dodaj"></p>
-    </form>
+
+        <form method="post" class="form-group row">
+            {% csrf_token %}
+
+                {% for field in form %}
+                    {{ field|as_crispy_field  }}
+                {% endfor %}
+        <p><input type="submit" value="dodaj" class="btn btn-success"></p>
+
+        </form>
+
     {% endif %}
 
 
     <form>
     {{ search_form.as_p }}
-    <input type="submit" value="Szukaj">
+    <input type="submit" value="Szukaj" class="btn btn-primary">
     </form>
 
 
