@@ -4,33 +4,71 @@
 
 
 <style type="text/css">
+
     .sidenav {
         height: 100%;
-        width: 210px;
+        width: 220px;
         position: fixed;
         z-index: 1;
         top: 0;
         left: 0;
-        background-color: #333;
+        background-color: #245894;
+        opacity: 0.8;
         overflow-x: hidden;
         padding-top: 20px;
+
+    }
+
+    .footer {
+        position: fixed;
+        left: 220px;
+        bottom: 0;
+        width: 100%;
+        background-color: #245894;
+        opacity: 0.3;
+        text-align: center;
+
+    }
+
+    .footer p{
+        font-family: "Courier 10 Pitch";
+        text-decoration: none;
+        font-size: 15px;
+        color: #000;
+        display: block;
+        font-family: "Courier 10 Pitch";
     }
 
     .sidenav a {
         padding: 6px 8px 6px 16px;
         text-decoration: none;
-        font-size: 25px;
-        color: #818181;
+        font-size: 20px;
+        color: #999;
         display: block;
+        font-family: "Courier 10 Pitch";
+    }
+
+    .sidenav h1 {
+        padding: 6px 8px 6px 16px;
+        text-decoration: none;
+        font-size: 28px;
+        color: #ddd;
+        display: block;
+        font-family: "Courier 10 Pitch";
     }
 
     .sidenav a:hover {
-        color: #f1f1f1;
+        color: #ddd;
     }
 
     .main {
-        margin-left: 215px;
+        margin-left: 225px;
         padding: 0px 10px;
+        font-family: "Courier 10 Pitch";
+    }
+
+    a {
+        font-family: "Courier 10 Pitch"
     }
 
 </style>
@@ -52,11 +90,13 @@
     {% if user.is_authenticated %}
 
         <div class="sidenav">
+            <h1><b>BLA BLA CAR</b></h1>
             <a href="/">Strona główna</a>
             <a href="/przewoz/create_transit/">Stwórz przejazd</a>
             <a href="/przewoz/my_transits/">Moje przejazdy</a>
             <a href="/przewoz/search_transit/">Wyszukaj przejazd</a>
             <a href="/przewoz/my_reservations/">Moje rezerwacje</a>
+            <a href="/about/">O nas</a>
         </div>
 
 
@@ -72,8 +112,10 @@
 
         {% else %}
         <div class="sidenav">
-        <a href="{% url 'login' %}">Zaloguj</a>
+        <h1><b>BLA BLA CAR</b></h1>
+        <a href="{% url 'login' %}">Zaloguj się</a>
         <a href="/accounts/signup/">Zarejestruj się</a>
+        <a href="/about/">O nas</a>
         </div>
 
     {% endif %}
@@ -85,22 +127,26 @@
 
         <div class="row justify-content-center">
             <div class="col-8">
-                <h1 class="mt-2"><b>BLA BLA TRUCK</b></h1>
-                <hr class="mt-2">
+{#                <h1 class="mt-2"><b>BLA BLA TRUCK</b></h1>#}
+
                 {% if user.is_authenticated %}
                     <P>Witaj {{ user.username }}!</P>
+                    <hr class="mt-2">
                 {% endif %}
                 <!--                             BLOCK CONTENT-->
                 {% block content %}
                 {% endblock %}
+                <div class="footer">
+                    <p>
+                        ver: {{ app_version }}
+                    </p>
+                </div>
             </div>
         </div>
 
     </div>
 
-    <p>
-        ver:{{ app_version }}
-    </p>
+
 
 
 
