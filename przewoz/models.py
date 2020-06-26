@@ -19,12 +19,13 @@ class Vehicle(models.Model):
 class Transit(models.Model):
     vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
     driver = models.ForeignKey(User, on_delete=models.CASCADE)
-    departure = models.DateTimeField()
-    arrival = models.DateTimeField()
+    departure = models.DateTimeField(auto_now_add=True, blank=True)
+    arrival = models.DateTimeField(auto_now_add=True, blank=True)
     destination = models.CharField(max_length=64)
     place_of_departure = models.CharField(max_length=64)
     description = models.TextField()
 
+# DATETIME PICKER BOOTSTRAP
 
 class Cargo(models.Model):
     type = models.CharField(max_length=64, choices=CARGO_CHOICES)

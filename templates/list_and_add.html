@@ -2,19 +2,18 @@
 {% load crispy_forms_filters %}
 
 {% block content %}
-    {% if form %}
+{#    {% if form %}#}
 
         <form method="post" class="form-group row">
             {% csrf_token %}
-
                 {% for field in form %}
-                    {{ field|as_crispy_field  }}
+                   <p> {{ field|as_crispy_field  }}</p>
                 {% endfor %}
         <p><input type="submit" value="dodaj" class="btn btn-success"></p>
 
         </form>
 
-    {% endif %}
+{#    {% endif %}#}
 
 
     <form>

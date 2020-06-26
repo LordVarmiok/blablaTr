@@ -1,12 +1,12 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from przewoz.models import Transit, Vehicle
+from przewoz.models import Transit, Vehicle, Cargo
 
 
 class TransitForm(forms.ModelForm):
     class Meta:
         model = Transit
-        fields = "__all__"
+        exclude = ["driver"]
 
 
 class VehicleForm(forms.ModelForm):
@@ -17,5 +17,5 @@ class VehicleForm(forms.ModelForm):
 
 class CargoForm(forms.ModelForm):
     class Meta:
-        model = Vehicle
+        model = Cargo
         fields = "__all__"

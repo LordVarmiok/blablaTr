@@ -14,44 +14,53 @@ def index(request):
 
 class TransitView(View):
     def get(self, request):
-        transits = Transit.objects.all()
+        transits = Transit.objects.filter(driver=request.user)
         form = TransitForm()
         return render(request, 'list_and_add.html', {'objects': transits, 'form': form})
 
     def post(self, request):
         form = TransitForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect("/transits/")
+            obj = form.save(commit=False)
+            obj.driver = request.user
+            obj.save() # dodany automatycznie driver jako zalogowany uzytkownik
+            return redirect("/przewoz/transits/")
         context = {'objects': Transit.objects.all(), 'form': form}
         return render(request, 'list_and_add.html', context)
 
 
 class VehicleView(View):
     def get(self, request):
+        form = VehicleForm()
         vehicles = Vehicle.objects.all()
-        return render(request, 'list_and_add.html', {'objects': vehicles})
+        return render(request, 'list_and_add.html', {'objects': vehicles, 'form': form})
 
     def post(self, request):
         form = VehicleForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("/vehicles/")
+            return redirect("/przewoz/vehicles/")
         context = {'objects': Vehicle.objects.all(), 'form': form}
         return render(request, 'list_and_add.html', context)
 
 
 class CargoView(View):
     def get(self, request):
+        form = CargoForm()
         cargo = Cargo.objects.all()
-        return render(request, 'list_and_add.html', {'objects': cargo})
+        return render(request, 'list_and_add.html', {'objects': cargo, 'form': form})
 
     def post(self, request):
-        form = VehicleForm(request.POST)
+        form = CargoForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("/cargo/")
+            return redirect("/przewoz/cargo/")
         context = {'objects': Cargo.objects.all(), 'form': form}
         return render(request, 'list_and_add.html', context)
 
 
+
+class MyVehicles(View):
+    def get(self, request, id):
+        vehicles = Vehicle.objects.filter(driver__vehicle=id)
+        return render(request, 'list_and_add.html', {'objects': vehicles})
