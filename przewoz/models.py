@@ -1,8 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-VEHICLE_CHOICES = ((1, 'tir'), (2, 'van'), (3, 'minivan'))
-CARGO_CHOICES = ((1, 'europaleta'), (2, 'paleta'), (3, 'dłużyca'))
+VEHICLE_CHOICES = (('tir', 'tir'), ('van', 'van'), ('minivan', 'minivan'))
+CARGO_CHOICES = (('europaleta', 'europaleta'), ('paleta', 'paleta'), ('dłużyca', 'dłużyca'))
 
 
 # Create your models here.
@@ -15,6 +15,9 @@ class Vehicle(models.Model):
     max_length = models.FloatField()
     description = models.TextField()
 
+    def __str__(self):
+        return f'{self.brand} | {self.type}'
+
 
 class Transit(models.Model):
     vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
@@ -25,7 +28,11 @@ class Transit(models.Model):
     place_of_departure = models.CharField(max_length=64)
     description = models.TextField()
 
+    def __str__(self):
+        return f'{self.place_of_departure} -> {self.destination}'
+
 # DATETIME PICKER BOOTSTRAP
+
 
 class Cargo(models.Model):
     type = models.CharField(max_length=64, choices=CARGO_CHOICES)
@@ -34,3 +41,6 @@ class Cargo(models.Model):
     assigned_vehicle = models.ForeignKey(Vehicle, default='', on_delete=models.CASCADE)
     assigned_transit = models.ForeignKey(Transit, default='', on_delete=models.CASCADE)
     description = models.TextField()
+
+    def __str__(self):
+        return f'{self.type}'

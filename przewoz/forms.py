@@ -12,10 +12,10 @@ class TransitForm(forms.ModelForm):
 class VehicleForm(forms.ModelForm):
     class Meta:
         model = Vehicle
-        fields = "__all__"
+        exclude = ["driver"]
 
 
 class CargoForm(forms.ModelForm):
     class Meta:
         model = Cargo
-        fields = "__all__"
+        exclude = ["owner"]
