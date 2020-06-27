@@ -25,9 +25,16 @@ class TransitView(View):
             obj = form.save(commit=False)
             obj.driver = request.user
             obj.save() # dodany automatycznie driver jako zalogowany uzytkownik
-            return redirect("/przewoz/transits/")
+            return redirect("/przewoz/my_transits/")
         context = {'objects': Transit.objects.all(), 'form': form}
         return render(request, 'list_and_add.html', context)
+
+
+class MyTransitsView(View):
+    def get(self, request):
+        message = 'przejazdy'
+        transits = Transit.objects.filter(driver=request.user)
+        return render(request, 'my_transits.html', {'objects': transits, 'message': message})
 
 
 class VehicleView(View):
@@ -43,9 +50,16 @@ class VehicleView(View):
             obj = form.save(commit=False)
             obj.driver = request.user
             obj.save()
-            return redirect("/przewoz/vehicles/")
+            return redirect("/przewoz/my_vehicles/")
         context = {'objects': Vehicle.objects.all(), 'form': form}
         return render(request, 'list_and_add.html', context)
+
+
+class MyVehiclesView(View):
+    def get(self, request):
+        message = 'pojazdy'
+        vehicles = Vehicle.objects.filter(driver=request.user)
+        return render(request, 'my_vehicles.html', {'objects': vehicles, 'message': message})
 
 
 class CargoView(View):
@@ -61,13 +75,13 @@ class CargoView(View):
             obj = form.save(commit=False)
             obj.owner = request.user
             obj.save()
-            return redirect("/przewoz/cargo/")
+            return redirect("/przewoz/my_cargo/")
         context = {'objects': Cargo.objects.all(), 'form': form}
         return render(request, 'list_and_add.html', context)
 
 
-
-class MyVehicles(View):
-    def get(self, request, id):
-        vehicles = Vehicle.objects.filter(driver__vehicle=id)
-        return render(request, 'list_and_add.html', {'objects': vehicles})
+class MyCargoView(View):
+    def get(self, request):
+        message = 'cargo'
+        cargo = Cargo.objects.filter(owner=request.user)
+        return render(request, 'my_cargo.html', {'objects': cargo, 'message': message})

@@ -92,13 +92,19 @@
         <div class="sidenav">
             <h1><b>BLA BLA CAR</b></h1>
             <a href="/">Strona główna</a>
-            <a href="/przewoz/transits/">Stwórz przejazd</a>
-            <a href="/przewoz/transits/">Moje przejazdy</a>
+            <a href="/przewoz/my_transits/">Moje przejazdy</a>
+            <a href="/przewoz/transits/">Dodaj przejazd</a>
             <a href="/przewoz/search_transit/">Wyszukaj przejazd</a>
+            <br>
             <a href="/przewoz/my_reservations/">Moje rezerwacje</a>
+            <br>
             <a href="/przewoz/my_vehicles/">Moje pojazdy</a>
             <a href="/przewoz/vehicles/">Dodaj pojazd</a>
-            <a href="/przewoz/cargo/">Mój towar</a>
+            <br>
+            <a href="/przewoz/cargo/">Dodaj cargo</a>
+            <a href="/przewoz/my_cargo/">Moje cargo</a>
+            <br>
+            <br>
             <a href="/about/">O nas</a>
         </div>
 
@@ -133,7 +139,7 @@
 {#                <h1 class="mt-2"><b>BLA BLA TRUCK</b></h1>#}
 
                 {% if user.is_authenticated %}
-                    <P>Witaj {{ user.username }}!</P>
+                    <P>Witaj {{ user.first_name }}!</P>
                     <hr class="mt-2">
                 {% endif %}
                 <!--                             BLOCK CONTENT-->
