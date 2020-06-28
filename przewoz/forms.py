@@ -19,3 +19,7 @@ class CargoForm(forms.ModelForm):
     class Meta:
         model = Cargo
         exclude = ["owner"]
+
+
+class TransitSearchForm(forms.ModelForm):
+    query = forms.CharField(required=False)

@@ -1,10 +1,11 @@
+from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import DeleteView
 
 from przewoz.models import Transit, Vehicle, Cargo
-from przewoz.forms import TransitForm, VehicleForm, CargoForm
+from przewoz.forms import TransitForm, VehicleForm, CargoForm, TransitSearchForm
 
 APP_VERSION = '0.1'
 
@@ -20,6 +21,18 @@ class TransitView(View):
         transits = Transit.objects.filter(driver=request.user)
         form = TransitForm()
         return render(request, 'list_and_add.html', {'objects': transits, 'form': form, 'message': message})
+
+    def search_transit(self, request):
+        transits_all = Transit.objects.all()
+        search_form = TransitSearchForm(request.GET)
+        search_form.is_valid()
+        destination = search_form.cleaned_data.get('query', "")
+        q1 = Q(transit__destination__icontains=destination)
+        arrival = search_form.cleaned_data.get('query', "")
+        q2 = Q(transit__arrival__icontains=arrival)
+        transits = Transit.objects.filter(q1 | q2)
+        # return transits, search_form
+        return render(request, 'search_form.html', {'objects_all': transits_all, 'objects': transits, 'search_form': search_form})
 
     def post(self, request):
         form = TransitForm(request.POST)

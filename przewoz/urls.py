@@ -20,10 +20,10 @@ from przewoz import views
 urlpatterns = [
     # path('admin/', admin.site.urls),
     path('', views.index),
-    path('transits/', views.TransitView.as_view(), name='transits'),
-    path('vehicles/', views.VehicleView.as_view(), name='vehicles'),
-    path('cargo/', views.CargoView.as_view(), name='cargo'),
-    # path('search_transit/', ),
+    path('transits/', views.TransitView.as_view(), name='transits'),# ADD TRANSIT
+    path('vehicles/', views.VehicleView.as_view(), name='vehicles'), # ADD VEHICLE
+    path('cargo/', views.CargoView.as_view(), name='cargo'), # ADD CARGO
+    path('search_transit/',views.TransitView.search_transit, name='searchTransit' ),
     # path('my_reservations/', ),
     path('my_vehicles/', views.MyVehiclesView.as_view(), name='myVehicles'),
     path('my_transits/', views.MyTransitsView.as_view(), name='myTransits'),
