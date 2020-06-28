@@ -23,11 +23,15 @@ urlpatterns = [
     path('transits/', views.TransitView.as_view(), name='transits'),
     path('vehicles/', views.VehicleView.as_view(), name='vehicles'),
     path('cargo/', views.CargoView.as_view(), name='cargo'),
-    # path('create_transit/', ),
-
     # path('search_transit/', ),
     # path('my_reservations/', ),
     path('my_vehicles/', views.MyVehiclesView.as_view(), name='myVehicles'),
     path('my_transits/', views.MyTransitsView.as_view(), name='myTransits'),
     path('my_cargo/', views.MyCargoView.as_view(), name='myCargo'),
+    path('my_vehicles/delete_vehicle/<int:pk>', views.DeleteVehicleView.as_view(), name='deleteVehicle'),
+    path('my_transits/delete_transit/<int:pk>', views.DeleteTransitView.as_view(), name='deleteTransit'),
+    path('my_cargo/delete_cargo/<int:pk>', views.DeleteCargoView.as_view(), name='deleteCargo'),
+    path('my_vehicles/update_vehicle/<int:pk>', views.UpdateVehicleView.as_view(), name='updateVehicle'),
+    path('my_transits/update_transit/<int:pk>', views.UpdateTransitView.as_view(), name='updateTransit'),
+    path('my_cargo/update_cargo/<int:pk>', views.UpdateCargoView.as_view(), name='updateCargo'),
 ]

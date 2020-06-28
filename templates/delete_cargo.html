@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Czy na pewno chcesz usunąć cargo {{ obj }}?</h1>
+    <form method="post">
+        {% csrf_token %}
+        <input type="submit" value="TAK">
+    </form>
+{% endblock %}

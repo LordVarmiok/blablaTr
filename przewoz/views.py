@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.views import View
+from django.views.generic import DeleteView
 
 from przewoz.models import Transit, Vehicle, Cargo
 from przewoz.forms import TransitForm, VehicleForm, CargoForm
@@ -37,6 +39,19 @@ class MyTransitsView(View):
         return render(request, 'my_transits.html', {'objects': transits, 'message': message})
 
 
+class UpdateTransitView(View):
+    model = Transit
+    fields =['description']
+    template_name = "update_object.html"
+    success_url = reverse_lazy('myTransits')
+
+
+class DeleteTransitView(DeleteView):
+    model = Transit
+    template_name = "delete_transit.html"
+    success_url = reverse_lazy("myTransits")
+
+
 class VehicleView(View):
     def get(self, request):
         message = 'pojazdy'
@@ -62,6 +77,19 @@ class MyVehiclesView(View):
         return render(request, 'my_vehicles.html', {'objects': vehicles, 'message': message})
 
 
+class UpdateVehicleView(View):
+    model = Vehicle
+    fields =['description']
+    template_name = "update_object.html"
+    success_url = reverse_lazy('myVehicles')
+
+
+class DeleteVehicleView(DeleteView):
+    model = Vehicle
+    template_name = "delete_vehicle.html"
+    success_url = reverse_lazy("myVehicles")
+
+
 class CargoView(View):
     def get(self, request):
         message = 'cargo'
@@ -85,3 +113,16 @@ class MyCargoView(View):
         message = 'cargo'
         cargo = Cargo.objects.filter(owner=request.user)
         return render(request, 'my_cargo.html', {'objects': cargo, 'message': message})
+
+
+class UpdateCargoView(View):
+    model = Cargo
+    fields =['description']
+    template_name = "update_object.html"
+    success_url = reverse_lazy('myCargo')
+
+
+class DeleteCargoView(DeleteView):
+    model = Cargo
+    template_name = "delete_cargo.html"
+    success_url = reverse_lazy("myCargo")

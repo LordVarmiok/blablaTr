@@ -10,8 +10,8 @@
                     <h5 class="card-title">{{ obj }}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">{{ obj.vehicle }}</h6>
                     <p class="card-text">{{ obj.description }}</p>
-                    <a href="#" class="card-link">Card link</a>
-                    <a href="#" class="card-link">Another link</a>
+                    <a href="delete_transit/{{ obj.pk }}" class="card-link">Usuń przejazd</a>
+                    <a href="update_transit/{{ obj.pk }}" class="card-link">Edytuj opis</a>
                   </div>
             </div>
         {% endfor %}
