@@ -4,8 +4,8 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import DeleteView
 
-from przewoz.models import Transit, Vehicle, Cargo
-from przewoz.forms import TransitForm, VehicleForm, CargoForm, TransitSearchForm
+from przewoz.models import Transit, Vehicle, Cargo, Reservation
+from przewoz.forms import TransitForm, VehicleForm, CargoForm, TransitSearchForm, MakeReservationForm
 
 APP_VERSION = '0.1'
 
@@ -21,18 +21,6 @@ class TransitView(View):
         transits = Transit.objects.filter(driver=request.user)
         form = TransitForm()
         return render(request, 'list_and_add.html', {'objects': transits, 'form': form, 'message': message})
-
-    def search_transit(self, request):
-        transits_all = Transit.objects.all()
-        search_form = TransitSearchForm(request.GET)
-        search_form.is_valid()
-        destination = search_form.cleaned_data.get('query', "")
-        q1 = Q(transit__destination__icontains=destination)
-        arrival = search_form.cleaned_data.get('query', "")
-        q2 = Q(transit__arrival__icontains=arrival)
-        transits = Transit.objects.filter(q1 | q2)
-        # return transits, search_form
-        return render(request, 'search_form.html', {'objects_all': transits_all, 'objects': transits, 'search_form': search_form})
 
     def post(self, request):
         form = TransitForm(request.POST)
@@ -63,6 +51,22 @@ class DeleteTransitView(DeleteView):
     model = Transit
     template_name = "delete_transit.html"
     success_url = reverse_lazy("myTransits")
+
+
+class SearchTransitView(View):
+    def get(self, request):
+        transits_all = Transit.objects.all()
+        search_form1 = TransitSearchForm(request.GET)
+        search_form2 = TransitSearchForm(request.GET)
+        search_form1.is_valid()
+        search_form2.is_valid()
+        destination = search_form1.cleaned_data.get('query', "")
+        q1 = Q(destination__icontains=destination)
+        arrival = search_form2.cleaned_data.get('query', "")
+        q2 = Q(arrival__icontains=arrival)
+        transits = Transit.objects.filter(q1 | q2)
+        # return transits, search_form
+        return render(request, 'search_form.html', {'objects_all': transits_all, 'objects': transits, 'search_form1': search_form1, 'search_form2': search_form2})
 
 
 class VehicleView(View):
@@ -139,3 +143,30 @@ class DeleteCargoView(DeleteView):
     model = Cargo
     template_name = "delete_cargo.html"
     success_url = reverse_lazy("myCargo")
+
+
+class MakeReservationView(View):
+    def get(self, request, pk):
+        form = MakeReservationForm()
+        transit = Transit.objects.filter(pk=pk)
+        cargo = Cargo.objects.filter(owner=request.user)
+        # vehicle = Vehicle.objects.filter(transit__vehicle_id__exact=transit.vehicle)
+        return render(request, 'make_reservation.html', {'form': form, 'transit': transit, 'cargo': cargo})
+
+    def post(self, request, pk):
+        form = MakeReservationForm(request.POST)
+        transit = Transit.objects.filter(pk=pk)
+        cargo = Cargo.objects.filter(owner=request.user)
+        vehicle = Vehicle.objects.filter(transit__vehicle_id__exact=transit.vehicle)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.owner = request.user
+            obj.save()
+            return redirect()
+
+
+class MyReservationsView(View):
+    def get(self, request):
+        message = 'rezerwacje'
+        reservations = Reservation.objects.filter(owner=request.user)
+        return render(request, 'my_reservation.html', {'objects': reservations, 'message': message})

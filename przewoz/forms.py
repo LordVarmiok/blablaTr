@@ -1,6 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from przewoz.models import Transit, Vehicle, Cargo
+from przewoz.models import Transit, Vehicle, Cargo, Reservation
 
 
 class TransitForm(forms.ModelForm):
@@ -21,5 +21,13 @@ class CargoForm(forms.ModelForm):
         exclude = ["owner"]
 
 
-class TransitSearchForm(forms.ModelForm):
+class TransitSearchForm(forms.Form):
+    # model = Transit
     query = forms.CharField(required=False)
+    # fields = "__all__"
+
+
+class MakeReservationForm(forms.ModelForm):
+    class Meta:
+        model = Reservation
+        exclude = ['driver']

@@ -23,8 +23,9 @@ urlpatterns = [
     path('transits/', views.TransitView.as_view(), name='transits'),# ADD TRANSIT
     path('vehicles/', views.VehicleView.as_view(), name='vehicles'), # ADD VEHICLE
     path('cargo/', views.CargoView.as_view(), name='cargo'), # ADD CARGO
-    path('search_transit/',views.TransitView.search_transit, name='searchTransit' ),
-    # path('my_reservations/', ),
+    path('search_transit/',views.SearchTransitView.as_view(), name='searchTransit' ),
+    path('search_transit/make_reservation/<int:pk>', views.MakeReservationView.as_view(), name='makeReservation'),
+    path('my_reservations/', views.MyReservationsView.as_view(), name='myReservation'),
     path('my_vehicles/', views.MyVehiclesView.as_view(), name='myVehicles'),
     path('my_transits/', views.MyTransitsView.as_view(), name='myTransits'),
     path('my_cargo/', views.MyCargoView.as_view(), name='myCargo'),

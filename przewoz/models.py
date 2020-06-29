@@ -44,3 +44,12 @@ class Cargo(models.Model):
 
     def __str__(self):
         return f'{self.type}'
+
+
+class Reservation(models.Model):
+    cargo = models.ForeignKey(Cargo, on_delete=models.CASCADE)
+    transit = models.ForeignKey(Transit, on_delete=models.CASCADE)
+    vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
+    driver = models.ForeignKey(User, on_delete=models.CASCADE)
+    description = models.TextField()
+

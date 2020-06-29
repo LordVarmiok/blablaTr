@@ -1,5 +1,29 @@
-{% extends base.html %}
+{% extends 'base.html' %}
 
 {% block content %}
-<h1>EDYTUJ SEARCH FORM</h1>
+<h1>Wyszukaj przejazd</h1>
+    <form>
+        {{ search_form1 }}{{ search_form2 }}<input type="submit" value="Szukaj">
+
+        <div class="container-fluid">
+            {% for obj in objects %}
+                <div class="card" style="width: 18rem;">
+                      <div class="card-body">
+                        <h5 class="card-title">{{ obj }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ obj.vehicle }}</h6>
+                        <p class="card-text">{{ obj.description }}</p>
+                        <a href="make_reservation/{{ obj.pk }}" class="card-link">Rezerwuj przejazd</a>
+{#                        <a href="update_transit/{{ obj.pk }}" class="card-link">Edytuj</a>#}
+                      </div>
+                </div>
+            {% endfor %}
+        </div>
+
+
+    </form>
+
+
+
+
+
 {% endblock %}
