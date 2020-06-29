@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Strona główna{% endblock %}
+
+{% block content %}
+{% if vehicle or transit or cargo %}
+    <h2>Moje elementy</h2>
+
+    <!-- VEHICLE -->
+    <div class="container-fluid">
+        {% for obj in vehicle %}
+            <div class="card" style="width: 18rem;">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ obj.brand }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ obj.type }}</h6>
+                    <p class="card-text">{{ obj.description }}</p>
+{#                    <a href="delete_transit/{{ obj.pk }}" class="card-link">Usuń przejazd</a>#}
+{#                    <a href="update_transit/{{ obj.pk }}" class="card-link">Edytuj opis</a>#}
+{#                    <a href="transit_reservations/{{ obj.pk }}" class="card-link">Rezerwacje</a>#}
+                  </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- TRANSIT -->
+    <div class="container-fluid">
+        {% for obj in transit %}
+            <div class="card" style="width: 18rem;">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ obj }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ obj.vehicle }}</h6>
+                    <p class="card-text">{{ obj.description }}</p>
+{#                    <a href="delete_transit/{{ obj.pk }}" class="card-link">Usuń przejazd</a>#}
+{#                    <a href="update_transit/{{ obj.pk }}" class="card-link">Edytuj opis</a>#}
+{#                    <a href="transit_reservations/{{ obj.pk }}" class="card-link">Rezerwacje</a>#}
+                  </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- CARGO -->
+    <div class="container-fluid">
+        {% for obj in cargo %}
+            <div class="card" style="width: 18rem;">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ obj.type }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ obj.dimensions }}</h6>
+                    <p class="card-text">{{ obj.description }}</p>
+{#                    <a href="delete_transit/{{ obj.pk }}" class="card-link">Usuń przejazd</a>#}
+{#                    <a href="update_transit/{{ obj.pk }}" class="card-link">Edytuj opis</a>#}
+{#                    <a href="transit_reservations/{{ obj.pk }}" class="card-link">Rezerwacje</a>#}
+                  </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endif %}
+
+{% endblock %}

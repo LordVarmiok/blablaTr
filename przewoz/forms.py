@@ -30,4 +30,4 @@ class TransitSearchForm(forms.Form):
 class MakeReservationForm(forms.ModelForm):
     class Meta:
         model = Reservation
-        exclude = ['driver']
+        exclude = ['driver', 'vehicle']

@@ -6,13 +6,39 @@ from django.views.generic import DeleteView
 
 from przewoz.models import Transit, Vehicle, Cargo, Reservation
 from przewoz.forms import TransitForm, VehicleForm, CargoForm, TransitSearchForm, MakeReservationForm
-
+import random
 APP_VERSION = '0.1'
 
 
 # Create your views here.
 def index(request):
-    return render(request, 'base.html', {'app_version': APP_VERSION})
+    '''
+    :param request:
+    :return: Widok pokazuje glowna strone z randomowym pojazdem, randomowym przejazdem i randomowym cargo
+    '''
+    vehicles = Vehicle.objects.filter(driver=request.user)
+    transits = Transit.objects.filter(driver=request.user)
+    cargo = Cargo.objects.filter(owner=request.user)
+
+    vehicles_pk_num = []
+    transits_pk_num = []
+    cargo_pk_num = []
+    # petle zapelniaja tablice z pk kazdych modeli
+    for element in vehicles:
+        vehicles_pk_num.append(element.pk)
+
+    for element in transits:
+        transits_pk_num.append(element.pk)
+
+    for element in cargo:
+        cargo_pk_num.append(element.pk)
+
+    vehicle = vehicles.filter(pk=random.choice(vehicles_pk_num))
+    transit = transits.filter(pk=random.choice(transits_pk_num))
+    cargo = cargo.filter(pk=random.choice(cargo_pk_num))
+
+    context = {'app_version': APP_VERSION,'vehicle': vehicle, 'transit': transit, 'cargo': cargo}
+    return render(request, 'home_random.html', context)
 
 
 class TransitView(View):
@@ -157,16 +183,26 @@ class MakeReservationView(View):
         form = MakeReservationForm(request.POST)
         transit = Transit.objects.filter(pk=pk)
         cargo = Cargo.objects.filter(owner=request.user)
-        vehicle = Vehicle.objects.filter(transit__vehicle_id__exact=transit.vehicle)
+        # vehicle = Vehicle.objects.filter(transit__vehicle_id__exact=transit.vehicle)
         if form.is_valid():
             obj = form.save(commit=False)
-            obj.owner = request.user
+            obj.driver = transit.driver
+            obj.vehicle = transit.vehicle
             obj.save()
-            return redirect()
+            return redirect('/my_reservations/')
+        return render(request, 'make_reservation.html', {'form': form, 'transit': transit, 'cargo': cargo})
 
 
 class MyReservationsView(View):
     def get(self, request):
         message = 'rezerwacje'
-        reservations = Reservation.objects.filter(owner=request.user)
+        reservations = Reservation.objects.filter(cargo__owner=request.user)
         return render(request, 'my_reservation.html', {'objects': reservations, 'message': message})
+
+
+class TransitReservationsView(View):
+    def get(self, request, pk):
+        message = 'rezerwacje na przejazdach'
+        transit = Transit.objects.filter(pk=pk)
+        reservations = Reservation.objects.filter(transit__driver=request.user)
+        return render(request, 'transit_reservation.html', {'objects': reservations, 'message': message, 'transit':transit})
