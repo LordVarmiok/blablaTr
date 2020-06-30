@@ -2,7 +2,7 @@ from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import DeleteView
+from django.views.generic import DeleteView, UpdateView
 
 from przewoz.models import Transit, Vehicle, Cargo, Reservation
 from przewoz.forms import TransitForm, VehicleForm, CargoForm, TransitSearchForm, MakeReservationForm
@@ -83,16 +83,15 @@ class SearchTransitView(View):
     def get(self, request):
         transits_all = Transit.objects.all()
         search_form1 = TransitSearchForm(request.GET)
-        search_form2 = TransitSearchForm(request.GET)
         search_form1.is_valid()
-        search_form2.is_valid()
-        destination = search_form1.cleaned_data.get('query', "")
+        destination = search_form1.cleaned_data.get('do', "")
         q1 = Q(destination__icontains=destination)
-        arrival = search_form2.cleaned_data.get('query', "")
-        q2 = Q(arrival__icontains=arrival)
-        transits = Transit.objects.filter(q1 | q2)
+        arrival = search_form1.cleaned_data.get('z', "")
+        q2 = Q(place_of_departure__icontains=arrival)
+        transits = Transit.objects.filter(q1 & q2)
         # return transits, search_form
-        return render(request, 'search_form.html', {'objects_all': transits_all, 'objects': transits, 'search_form1': search_form1, 'search_form2': search_form2})
+        return render(request, 'search_form.html',
+                      {'objects_all': transits_all, 'objects': transits, 'search_form1': search_form1})
 
 
 class VehicleView(View):
@@ -120,7 +119,7 @@ class MyVehiclesView(View):
         return render(request, 'my_vehicles.html', {'objects': vehicles, 'message': message})
 
 
-class UpdateVehicleView(View):
+class UpdateVehicleView(UpdateView):
     model = Vehicle
     fields =['description']
     template_name = "update_object.html"
@@ -181,15 +180,15 @@ class MakeReservationView(View):
 
     def post(self, request, pk):
         form = MakeReservationForm(request.POST)
-        transit = Transit.objects.filter(pk=pk)
+        transit = Transit.objects.get(pk=pk)
         cargo = Cargo.objects.filter(owner=request.user)
-        # vehicle = Vehicle.objects.filter(transit__vehicle_id__exact=transit.vehicle)
+        #vehicle = Vehicle.objects.filter(transit__vehicle_id__exact=transit.vehicle)
         if form.is_valid():
             obj = form.save(commit=False)
             obj.driver = transit.driver
             obj.vehicle = transit.vehicle
             obj.save()
-            return redirect('/my_reservations/')
+            return redirect('/przewoz/my_reservations/')
         return render(request, 'make_reservation.html', {'form': form, 'transit': transit, 'cargo': cargo})
 
 

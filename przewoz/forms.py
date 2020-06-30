@@ -22,9 +22,10 @@ class CargoForm(forms.ModelForm):
 
 
 class TransitSearchForm(forms.Form):
-    # model = Transit
-    query = forms.CharField(required=False)
-    # fields = "__all__"
+
+    z = forms.CharField(required=False)
+    do = forms.CharField(required=False)
+
 
 
 class MakeReservationForm(forms.ModelForm):
