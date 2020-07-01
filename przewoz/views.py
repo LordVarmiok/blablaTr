@@ -66,7 +66,7 @@ class MyTransitsView(View):
         return render(request, 'my_transits.html', {'objects': transits, 'message': message})
 
 
-class UpdateTransitView(View):
+class UpdateTransitView(UpdateView):
     model = Transit
     fields =['description']
     template_name = "update_object.html"
@@ -157,7 +157,7 @@ class MyCargoView(View):
         return render(request, 'my_cargo.html', {'objects': cargo, 'message': message})
 
 
-class UpdateCargoView(View):
+class UpdateCargoView(UpdateView):
     model = Cargo
     fields =['description']
     template_name = "update_object.html"
@@ -190,6 +190,13 @@ class MakeReservationView(View):
             obj.save()
             return redirect('/przewoz/my_reservations/')
         return render(request, 'make_reservation.html', {'form': form, 'transit': transit, 'cargo': cargo})
+
+    def check_if_vehicle_cap_is_over(self, request, pk, transit, vehicle, cargo):
+        vehicle_cap_size = vehicle.max_capacity
+        vehicle_length = vehicle.max_length
+        cargo_dimensions = list(cargo.dimensions.split(','))
+        cargo_x_y = cargo.dimensions[0] * cargo_dimensions[1]
+
 
 
 class MyReservationsView(View):
