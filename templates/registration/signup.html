@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% block content %}
+    Create an Account
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-success">Zarejestruj się</button>
+    </form>
+{% endblock %}

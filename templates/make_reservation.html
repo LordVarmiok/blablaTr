@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Stwórz rezerwację{% endblock %}
+
+{% load crispy_forms_filters %}
+
+{% block content %}
+
+{#    {% if form %}#}
+        <h1>DOKONCZYC DODANIE REZERWACJI</h1>
+    {% if message %}
+        <h2>{{ message }}</h2>
+    {% endif %}
+        <form method="post" class="form-group row">
+            {% csrf_token %}
+                {% for field in form %}
+                   <p> {{ field|as_crispy_field  }}</p>
+                {% endfor %}
+        <p><input type="submit" value="dodaj" class="btn btn-success"></p>
+
+        </form>
+
+{#    {% endif %}#}
+{#    <h2>Moje {{ message }}</h2>#}
+{#    <div class="container-fluid">#}
+{#        {% for obj in objects %}#}
+{#            <div class="card" style="width: 18rem;">#}
+{#                  <div class="card-body">#}
+{#                    <h5 class="card-title">{{ obj }}</h5>#}
+{#                    <h6 class="card-subtitle mb-2 text-muted">{{ obj }}</h6>#}
+{#                    <p class="card-text">{{ obj.description }}</p>#}
+{#                    <a href="#" class="card-link">Card link</a>#}
+{#                    <a href="#" class="card-link">Another link</a>#}
+{#                  </div>#}
+{#            </div>#}
+{#        {% endfor %}#}
+{#    </div>#}
+{#    <form>#}
+{#    {{ search_form.as_p }}#}
+{#    <input type="submit" value="Szukaj" class="btn btn-primary">#}
+{#    </form>#}
+
+
+{% endblock %}
