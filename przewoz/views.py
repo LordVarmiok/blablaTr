@@ -194,18 +194,18 @@ class MakeReservationView(View):
     def post(self, request, pk):
         form = MakeReservationForm(request.POST)
         transit = Transit.objects.get(pk=pk)
-        cargo = Cargo.objects.get(owner=request.user)
+        cargo = Cargo.objects.filter(owner=request.user)
         # vehicle = Vehicle.objects.filter(transit__vehicle_id__exact=transit.vehicle)
         if form.is_valid():
             obj = form.save(commit=False)
             obj.driver = transit.driver
             obj.vehicle = transit.vehicle
-            if MakeReservationView.check_if_vehicle_cap_is_over(pk, transit, transit.vehicle, cargo) == False:
-                message = 'Nie można dokonać rezerwacji. ' \
-                          'Nie ma już miejsca w pojeździe. Prosimy skorzystać z innego przejazdu' \
-                          'lub wybrać przesyłkę o mniejszych rozmiarach.'
-                context = {'form': form, 'transit': transit, 'cargo': cargo, 'message': message}
-                return render(request, 'make_reservation.html', context)
+            # if MakeReservationView.check_if_vehicle_cap_is_over(pk, transit, transit.vehicle, cargo) == False:
+            #     message = 'Nie można dokonać rezerwacji. ' \
+            #               'Nie ma już miejsca w pojeździe. Prosimy skorzystać z innego przejazdu' \
+            #               'lub wybrać przesyłkę o mniejszych rozmiarach.'
+            #     context = {'form': form, 'transit': transit, 'cargo': cargo, 'message': message}
+            #     return render(request, 'make_reservation.html', context)
             obj.save()
             return redirect('/przewoz/my_reservations/')
         return render(request, 'make_reservation.html', {'form': form, 'transit': transit, 'cargo': cargo})
@@ -225,8 +225,8 @@ class DeleteReservationView(DeleteView):
 
 
 class TransitReservationsView(View):
-    def get(self, request, pk):
-        message = 'rezerwacje na przejazdach'
-        transit = Transit.objects.filter(pk=pk)
+    def get(self, request):
+        message = 'Rezerwacje na moich przejazdach'
+        transit = Transit.objects.filter(reservation__driver=request.user)
         reservations = Reservation.objects.filter(transit__driver=request.user)
         return render(request, 'transit_reservation.html', {'objects': reservations, 'message': message, 'transit':transit})

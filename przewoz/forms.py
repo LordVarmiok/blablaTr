@@ -22,7 +22,6 @@ class CargoForm(forms.ModelForm):
 
 
 class TransitSearchForm(forms.Form):
-
     z = forms.CharField(required=False)
     do = forms.CharField(required=False)
 
