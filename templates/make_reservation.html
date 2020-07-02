@@ -5,8 +5,12 @@
 {% load crispy_forms_filters %}
 
 {% block content %}
+
 {#    {% if form %}#}
         <h1>DOKONCZYC DODANIE REZERWACJI</h1>
+    {% if message %}
+        <h2>{{ message }}</h2>
+    {% endif %}
         <form method="post" class="form-group row">
             {% csrf_token %}
                 {% for field in form %}

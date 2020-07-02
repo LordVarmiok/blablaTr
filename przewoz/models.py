@@ -12,6 +12,7 @@ class Vehicle(models.Model):
     driver = models.ForeignKey(User, on_delete=models.CASCADE)
     volume = models.FloatField()
     max_capacity = models.FloatField()
+    remaining_capacity = models.FloatField(default=0)
     max_length = models.FloatField()
     description = models.TextField()
 
@@ -35,6 +36,7 @@ class Transit(models.Model):
 
 
 class Cargo(models.Model):
+    name = models.CharField(max_length=64, default='')
     type = models.CharField(max_length=64, choices=CARGO_CHOICES)
     dimensions = models.CharField(max_length=64, default='120, 80, 14.4')
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -43,7 +45,7 @@ class Cargo(models.Model):
     description = models.TextField()
 
     def __str__(self):
-        return f'{self.type}'
+        return f'{self.name}-{self.type}'
 
 
 class Reservation(models.Model):

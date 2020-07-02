@@ -11,6 +11,11 @@ APP_VERSION = '0.1'
 
 
 # Create your views here.
+
+def logout(request):
+    return render(request, 'base.html')
+
+
 def index(request):
     '''
     :param request:
@@ -178,25 +183,32 @@ class MakeReservationView(View):
         # vehicle = Vehicle.objects.filter(transit__vehicle_id__exact=transit.vehicle)
         return render(request, 'make_reservation.html', {'form': form, 'transit': transit, 'cargo': cargo})
 
+    def check_if_vehicle_cap_is_over(pk, transit, vehicle, cargo):
+        cargo_dimensions = list(cargo.dimensions.split(','))
+        cargo_x_y = cargo.dimensions[0] * cargo_dimensions[1]
+        vehicle.max_capacity += cargo_x_y
+        if vehicle.max_capacity > vehicle.remaining_capacity:
+            return False
+        return True
+
     def post(self, request, pk):
         form = MakeReservationForm(request.POST)
         transit = Transit.objects.get(pk=pk)
-        cargo = Cargo.objects.filter(owner=request.user)
-        #vehicle = Vehicle.objects.filter(transit__vehicle_id__exact=transit.vehicle)
+        cargo = Cargo.objects.get(owner=request.user)
+        # vehicle = Vehicle.objects.filter(transit__vehicle_id__exact=transit.vehicle)
         if form.is_valid():
             obj = form.save(commit=False)
             obj.driver = transit.driver
             obj.vehicle = transit.vehicle
+            if MakeReservationView.check_if_vehicle_cap_is_over(pk, transit, transit.vehicle, cargo) == False:
+                message = 'Nie można dokonać rezerwacji. ' \
+                          'Nie ma już miejsca w pojeździe. Prosimy skorzystać z innego przejazdu' \
+                          'lub wybrać przesyłkę o mniejszych rozmiarach.'
+                context = {'form': form, 'transit': transit, 'cargo': cargo, 'message': message}
+                return render(request, 'make_reservation.html', context)
             obj.save()
             return redirect('/przewoz/my_reservations/')
         return render(request, 'make_reservation.html', {'form': form, 'transit': transit, 'cargo': cargo})
-
-    def check_if_vehicle_cap_is_over(self, request, pk, transit, vehicle, cargo):
-        vehicle_cap_size = vehicle.max_capacity
-        vehicle_length = vehicle.max_length
-        cargo_dimensions = list(cargo.dimensions.split(','))
-        cargo_x_y = cargo.dimensions[0] * cargo_dimensions[1]
-
 
 
 class MyReservationsView(View):
@@ -204,6 +216,12 @@ class MyReservationsView(View):
         message = 'rezerwacje'
         reservations = Reservation.objects.filter(cargo__owner=request.user)
         return render(request, 'my_reservation.html', {'objects': reservations, 'message': message})
+
+
+class DeleteReservationView(DeleteView):
+    model = Reservation
+    template_name = "delete_reservation.html"
+    success_url = reverse_lazy("myReservation")
 
 
 class TransitReservationsView(View):

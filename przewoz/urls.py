@@ -19,14 +19,15 @@ from przewoz import views
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
-    path('', views.index),
+    path('home/', views.index),
     path('transits/', views.TransitView.as_view(), name='transits'),# ADD TRANSIT
     path('vehicles/', views.VehicleView.as_view(), name='vehicles'), # ADD VEHICLE
     path('cargo/', views.CargoView.as_view(), name='cargo'), # ADD CARGO
     path('search_transit/',views.SearchTransitView.as_view(), name='searchTransit' ),
     path('search_transit/make_reservation/<int:pk>', views.MakeReservationView.as_view(), name='makeReservation'),
     path('my_reservations/', views.MyReservationsView.as_view(), name='myReservation'),
-    path('my_transits/transit_reservations/', views.TransitReservationsView.as_view(), name='transitReservation'),
+    path('my_reservations/delete_reservation/<int:pk>', views.DeleteReservationView.as_view(), name='deleteReservation'),
+    path('my_transits/transit_reservations/<int:pk>', views.TransitReservationsView.as_view(), name='transitReservation'),
     path('my_vehicles/', views.MyVehiclesView.as_view(), name='myVehicles'),
     path('my_transits/', views.MyTransitsView.as_view(), name='myTransits'),
     path('my_cargo/', views.MyCargoView.as_view(), name='myCargo'),

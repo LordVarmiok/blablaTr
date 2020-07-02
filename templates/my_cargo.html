@@ -9,8 +9,9 @@
         {% for obj in objects %}
             <div class="card" style="width: 18rem;">
                   <div class="card-body">
-                    <h5 class="card-title">{{ obj.type }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">{{ obj.dimensions }}</h6>
+                    <h4 class="card-title">Nazwa: {{ obj.name }}</h4>
+                      <h5 class="card-title">Typ: {{ obj.type }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Wymiary: {{ obj.dimensions }}</h6>
                     <h6 class="card-subtitle mb-2 text-muted">{{ obj.assigned_transit }}</h6>
                     <p class="card-text">{{ obj.description }}</p>
                     <a href="delete_cargo/{{ obj.pk }}" class="card-link">Usuń cargo</a>
