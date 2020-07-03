@@ -18,7 +18,7 @@ class VehicleForm(forms.ModelForm):
 class CargoForm(forms.ModelForm):
     class Meta:
         model = Cargo
-        exclude = ["owner"]
+        exclude = ["owner", 'assigned_vehicle', 'assigned_transit']
 
 
 class TransitSearchForm(forms.Form):
@@ -26,8 +26,7 @@ class TransitSearchForm(forms.Form):
     do = forms.CharField(required=False)
 
 
-
 class MakeReservationForm(forms.ModelForm):
     class Meta:
         model = Reservation
-        exclude = ['driver', 'vehicle']
+        exclude = ['driver', 'vehicle', 'transit']

@@ -25,25 +25,29 @@ def index(request):
     transits = Transit.objects.filter(driver=request.user)
     cargo = Cargo.objects.filter(owner=request.user)
 
-    vehicles_pk_num = []
-    transits_pk_num = []
-    cargo_pk_num = []
-    # petle zapelniaja tablice z pk kazdych modeli
-    for element in vehicles:
-        vehicles_pk_num.append(element.pk)
+    if vehicles or transits or cargo:
+        vehicles_pk_num = []
+        transits_pk_num = []
+        cargo_pk_num = []
+        # petle zapelniaja tablice z pk kazdych modeli
+        for element in vehicles:
+            vehicles_pk_num.append(element.pk)
 
-    for element in transits:
-        transits_pk_num.append(element.pk)
+        for element in transits:
+            transits_pk_num.append(element.pk)
 
-    for element in cargo:
-        cargo_pk_num.append(element.pk)
-
-    vehicle = vehicles.filter(pk=random.choice(vehicles_pk_num))
-    transit = transits.filter(pk=random.choice(transits_pk_num))
-    cargo = cargo.filter(pk=random.choice(cargo_pk_num))
-
-    context = {'app_version': APP_VERSION,'vehicle': vehicle, 'transit': transit, 'cargo': cargo}
-    return render(request, 'home_random.html', context)
+        for element in cargo:
+            cargo_pk_num.append(element.pk)
+        if vehicles:
+            vehicle = vehicles.filter(pk=random.choice(vehicles_pk_num))
+        if transits:
+            transit = transits.filter(pk=random.choice(transits_pk_num))
+        if cargo:
+            cargo = cargo.filter(pk=random.choice(cargo_pk_num))
+        context = {'app_version': APP_VERSION, 'vehicle': vehicle, 'transit': transit, 'cargo': cargo}
+        return render(request, 'home_random.html', context)
+    else:
+        return render(request, 'base.html')
 
 
 class TransitView(View):
@@ -51,10 +55,12 @@ class TransitView(View):
         message = 'przejazdy'
         transits = Transit.objects.filter(driver=request.user)
         form = TransitForm()
+        form.fields['vehicle'].queryset=Vehicle.objects.filter(driver=request.user)
         return render(request, 'list_and_add.html', {'objects': transits, 'form': form, 'message': message})
 
     def post(self, request):
         form = TransitForm(request.POST)
+        form.fields['vehicle'].queryset = Vehicle.objects.filter(driver=request.user)
         if form.is_valid():
             obj = form.save(commit=False)
             obj.driver = request.user
@@ -149,6 +155,8 @@ class CargoView(View):
         if form.is_valid():
             obj = form.save(commit=False)
             obj.owner = request.user
+            # obj.assigned_vehicle = ''
+            # obj.assigned_transit = '' oba te pola mają null
             obj.save()
             return redirect("/przewoz/my_cargo/")
         context = {'objects': Cargo.objects.all(), 'form': form}
@@ -180,6 +188,7 @@ class MakeReservationView(View):
         form = MakeReservationForm()
         transit = Transit.objects.filter(pk=pk)
         cargo = Cargo.objects.filter(owner=request.user)
+        form.fields['cargo'].queryset = Cargo.objects.filter(owner=request.user)
         # vehicle = Vehicle.objects.filter(transit__vehicle_id__exact=transit.vehicle)
         return render(request, 'make_reservation.html', {'form': form, 'transit': transit, 'cargo': cargo})
 
@@ -195,6 +204,7 @@ class MakeReservationView(View):
         form = MakeReservationForm(request.POST)
         transit = Transit.objects.get(pk=pk)
         cargo = Cargo.objects.filter(owner=request.user)
+        form.fields['cargo'].queryset = Cargo.objects.filter(owner=request.user)
         # vehicle = Vehicle.objects.filter(transit__vehicle_id__exact=transit.vehicle)
         if form.is_valid():
             obj = form.save(commit=False)
