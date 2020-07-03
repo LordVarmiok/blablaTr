@@ -40,8 +40,8 @@ class Cargo(models.Model):
     type = models.CharField(max_length=64, choices=CARGO_CHOICES)
     dimensions = models.CharField(max_length=64, default='120, 80, 14.4')
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    assigned_vehicle = models.ForeignKey(Vehicle, default='', on_delete=models.CASCADE)
-    assigned_transit = models.ForeignKey(Transit, default='', on_delete=models.CASCADE)
+    assigned_vehicle = models.ForeignKey(Vehicle, blank=True, null=True, on_delete=models.CASCADE)
+    assigned_transit = models.ForeignKey(Transit, blank=True, null=True, on_delete=models.CASCADE)
     description = models.TextField()
 
     def __str__(self):
