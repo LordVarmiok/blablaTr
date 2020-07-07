@@ -210,6 +210,7 @@ class MakeReservationView(View):
             obj = form.save(commit=False)
             obj.driver = transit.driver
             obj.vehicle = transit.vehicle
+            obj.transit = transit
             # if MakeReservationView.check_if_vehicle_cap_is_over(pk, transit, transit.vehicle, cargo) == False:
             #     message = 'Nie można dokonać rezerwacji. ' \
             #               'Nie ma już miejsca w pojeździe. Prosimy skorzystać z innego przejazdu' \
