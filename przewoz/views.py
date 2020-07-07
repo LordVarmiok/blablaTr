@@ -241,3 +241,10 @@ class TransitReservationsView(View):
         transit = Transit.objects.filter(reservation__driver=request.user)
         reservations = Reservation.objects.filter(transit__driver=request.user)
         return render(request, 'transit_reservation.html', {'objects': reservations, 'message': message, 'transit':transit})
+
+
+class UpdateReservationView(UpdateView):
+    model = Reservation
+    fields =['description']
+    template_name = "update_object.html"
+    success_url = reverse_lazy('myReservation')

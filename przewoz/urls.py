@@ -27,6 +27,7 @@ urlpatterns = [
     path('search_transit/make_reservation/<int:pk>', views.MakeReservationView.as_view(), name='makeReservation'),
     path('my_reservations/', views.MyReservationsView.as_view(), name='myReservation'),
     path('my_reservations/delete_reservation/<int:pk>', views.DeleteReservationView.as_view(), name='deleteReservation'),
+    path('my_reservations/update_reservation/<int:pk>', views.UpdateReservationView.as_view(), name='updateReservation'),
     path('my_transits/transit_reservations/', views.TransitReservationsView.as_view(), name='transitReservation'),
     path('my_vehicles/', views.MyVehiclesView.as_view(), name='myVehicles'),
     path('my_transits/', views.MyTransitsView.as_view(), name='myTransits'),

@@ -13,7 +13,7 @@
                     <h6 class="card-subtitle mb-2 text-muted">{{ obj.transit.departure }}->{{ obj.transit.arrival }}</h6>
                     <p class="card-text">{{ obj.description }}</p>
                     <a href="delete_reservation/{{ obj.pk }}" class="card-link">Anuluj rezerwacje</a>
-                    <a href="update_transit/{{ obj.pk }}" class="card-link">Edytuj opis</a>
+                    <a href="update_reservation/{{ obj.pk }}" class="card-link">Edytuj opis</a>
                   </div>
             </div>
         {% endfor %}
