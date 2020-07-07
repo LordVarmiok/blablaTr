@@ -19,22 +19,30 @@ from przewoz import views
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
+
+    # strona po logowaniu - home
     path('home/', views.index),
+    # Glowne 3 modele - dodawanie do db
     path('transits/', views.TransitView.as_view(), name='transits'),# ADD TRANSIT
     path('vehicles/', views.VehicleView.as_view(), name='vehicles'), # ADD VEHICLE
     path('cargo/', views.CargoView.as_view(), name='cargo'), # ADD CARGO
+    # Wyszukiwanie
     path('search_transit/',views.SearchTransitView.as_view(), name='searchTransit' ),
     path('search_transit/make_reservation/<int:pk>', views.MakeReservationView.as_view(), name='makeReservation'),
+    # Rezerwacje
     path('my_reservations/', views.MyReservationsView.as_view(), name='myReservation'),
     path('my_reservations/delete_reservation/<int:pk>', views.DeleteReservationView.as_view(), name='deleteReservation'),
     path('my_reservations/update_reservation/<int:pk>', views.UpdateReservationView.as_view(), name='updateReservation'),
     path('my_transits/transit_reservations/', views.TransitReservationsView.as_view(), name='transitReservation'),
+    # Glowne 3 modele - wyswietlanie
     path('my_vehicles/', views.MyVehiclesView.as_view(), name='myVehicles'),
     path('my_transits/', views.MyTransitsView.as_view(), name='myTransits'),
     path('my_cargo/', views.MyCargoView.as_view(), name='myCargo'),
+    # Glowne 3 modele - usuwanie
     path('my_vehicles/delete_vehicle/<int:pk>', views.DeleteVehicleView.as_view(), name='deleteVehicle'),
     path('my_transits/delete_transit/<int:pk>', views.DeleteTransitView.as_view(), name='deleteTransit'),
     path('my_cargo/delete_cargo/<int:pk>', views.DeleteCargoView.as_view(), name='deleteCargo'),
+    # Glowne 3 modele - edycja
     path('my_vehicles/update_vehicle/<int:pk>', views.UpdateVehicleView.as_view(), name='updateVehicle'),
     path('my_transits/update_transit/<int:pk>', views.UpdateTransitView.as_view(), name='updateTransit'),
     path('my_cargo/update_cargo/<int:pk>', views.UpdateCargoView.as_view(), name='updateCargo'),
